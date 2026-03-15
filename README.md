@@ -2,7 +2,7 @@
 Work related to crop field processing completed for ClarkU Fall26 Intro to Python Directed Study and Mapping Africa projects
 
 # Notes on setup 
-Large cropfield attribute files are under .gitattributes, to access please install LFS. 
+Zambia Cropfield Shape statistics file is ~1.9 G - please download locally only at this link: https://drive.google.com/file/d/1tV4HGXpFg4G5gmlLGe-6tGwlI0RTW4Ot/view
 
 # Background
 This work is based on Mapping Africa work completed by Prof. Lyndon Estes's AgroImpacts Research crop at Clark University. As part of their research, they have used CNNs to generate cropfield polygons across the entirety of states such as Zambia using high resolution Planet Imagery.
@@ -11,7 +11,7 @@ Below is an example of the code used by Fields of the World to generate vector f
 https://github.com/fieldsoftheworld/ftw-baselines/blob/main/ftw_tools/postprocess/polygonize.py
 
 One challenge of this work is the creation of false "thin-necked" polygons and false "islands" within cropfield polygons. See example image below with false islands circled in red and thin necks connecting separate fields outlined in blue. 
-
+![Example of cropfield polygon issues](images/ExampleREADME.png "Example of cropfield polygon issues")
 
 For our final project, we propose building upon this research by finding an algorithmic way to clean up these cropfield polygons. 
 
