@@ -12,6 +12,7 @@ https://github.com/fieldsoftheworld/ftw-baselines/blob/main/ftw_tools/postproces
 
 One challenge of this work is the creation of false "thin-necked" polygons and false "islands" within cropfield polygons. See example image below with false islands circled in red and thin necks connecting separate fields outlined in blue. 
 
+
 For our final project, we propose building upon this research by finding an algorithmic way to clean up these cropfield polygons. 
 
 # Proposed Methodology
