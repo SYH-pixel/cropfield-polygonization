@@ -28,3 +28,7 @@ Other possible functions we can generate for this project include a sampling fun
 We can also generate an function that differences the original polygons from our newly generate polygons to see the change in cropland area after processing is applied. 
 
 ** I think zac had another function he was interested in?** 
+
+## Proposed Timeline (Bri) 
+
+
