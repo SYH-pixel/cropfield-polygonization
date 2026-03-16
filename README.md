@@ -10,7 +10,8 @@ This project is  performed in parallel with other projects also attempting to cr
 Below is an example of the code used by Fields of the World to generate vector files from raster imagery: 
 https://github.com/fieldsoftheworld/ftw-baselines/blob/main/ftw_tools/postprocess/polygonize.py
 
-One challenge of this work is the creation of false "thin-necked" polygons and false "islands" within cropfield polygons. See example image below with false islands circled in red and thin necks connecting separate fields outlined in blue. 
+One challenge of this work is the creation of false "thin-necked" polygons and false "islands" within cropfield polygons. See example image below with false islands circled in red and thin necks connecting separate fields outlined in blue.
+
 ![Example of cropfield polygon issues](images/ExampleREADME.png "Example of cropfield polygon issues")
 
 For our final project, we propose building upon this research by finding an algorithmic way to clean up these cropfield polygons. 
