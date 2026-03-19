@@ -23,7 +23,7 @@ https://github.com/agroimpacts/instancemaker/blob/main/src/instancemaker/compute
 Using these statistics, we can isolate polygons with "thin necks" and split them along these locations. Below is an example of a similar problem being approached with buffers in R that we can use to guide our project.
 https://gis.stackexchange.com/questions/333817/splitting-polygons-at-narrowest-part-using-r
 
-Other possible functions we can generate for this project include a sampling function to randomly sample tiles throughout our country of interest. After creating a representative sampling of tiles in Zambia, we can then run our algorithm on the sampled tiles. This could save time and computational resources.
+Other possible functions we can generate for this project include a sampling function that is weighted by parameters such as cropfield area. After creating a representative sampling of tiles in Zambia, we can then run our algorithm on the sampled tiles. This could save time and computational resources.
 
 We can also generate an function that differences the original polygons from our newly generate polygons to see the change in cropland area after processing is applied. 
 
