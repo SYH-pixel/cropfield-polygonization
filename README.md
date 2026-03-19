@@ -18,10 +18,18 @@ For our final project, we propose building upon this research by finding an algo
 
 # Proposed Methodology
 We hope to build upon existing Mapping Africa code that calculates shape statistics for polygons and saves new GeoJSON files with additional information. Examples of metrics included: area, compactness, interior_edge (perimeter to area ratio), fractal_dim. 
-https://github.com/agroimpacts/instancemaker/blob/main/src/instancemaker/computeinstances.py
+https://github.com/agroimpacts/instancemaker/blob/main/src/instancemaker/computeinstances.py See below for additional information about shape statistic values.
+
+![Example of cropfield polygon statistics](images/InfoExampleREADME.png "Zambia cropfield statistic fields")
+
+![Example of cropfield polygon statistic values](images/Head10README.png "Examples of cropfield statistic values")
+
+![Example of cropfield polygon statistic ranges](images/RangeREADME.png "Examples of cropfield statistic value ranges")
 
 Using these statistics, we can isolate polygons with "thin necks" and split them along these locations. Below is an example of a similar problem being approached with buffers in R that we can use to guide our project.
-https://gis.stackexchange.com/questions/333817/splitting-polygons-at-narrowest-part-using-r
+https://gis.stackexchange.com/questions/333817/splitting-polygons-at-narrowest-part-using-r The `splitnarrow` function described in the answers creates inward from an original buffer until the buffers are forced to split, and finds where the 2 split buffers are closest. It then finds where on the original polygon the buffer split corresponds to, and splits it. The inputs are the original polygon, sdist, which is the smallest value that splits the single polygon into a multipolygon, and eps, which is the smallest value that touches both sides when buffered from the waist intersection point. We could try this approach using buffers but use the shape statistics generated to filter out which polygons to apply the "splitting" method to.
+
+![Example of cropfield polygon plots](images/PlotExampleREADME.png "Cropfield polygon plots for the first 10 crop fields, symbolized by `shape_index`")
 
 Other possible functions we can generate for this project include a sampling function that is weighted by parameters such as cropfield area. After creating a representative sampling of tiles in Zambia, we can then run our algorithm on the sampled tiles. This could save time and computational resources.
 
