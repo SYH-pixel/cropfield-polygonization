@@ -29,6 +29,10 @@ We can also generate an function that differences the original polygons from our
 
 ** I think zac had another function he was interested in?** 
 
+During our meeting with Lyndon, I recall he was interested in my topology development suggestion for this data using python. He seemed less interested in the idea I had based on a similar project I was apart of during my undergrad because this project has already covered that aspect, and is now in more of a QA phase. The topology would be successful if it were able to identify and index (mapped with a point only, for now) areas of known issues (such as "thin necks" and the other common error he mentioned which I can't recall now), and recommend operations for rectification. I think developing a script that defines and implements this topology would be a strong first step for a tool that automates spatial fixes in the existing dataset (or new one). The spatial stats that Gregg exported for us could be a great sample set to build and test this topology on. If we are able to complete the topology (which itself will be a considerable task, I think), then we move on to creating spatial outputs that rectify the issues? Does this make sense?
+
+I apologize again for missing our second group meeting, I would have added this to our discussion. Let's discuss tomorrow during class time(?) with Zhiwen, luckily I don't think there is a rigid timeline for us to adhere to for this project, as long as we work on something that is meaningful for us and hopefully contributes to Lyndon's research.
+
 ## Proposed Timeline (Bri) 
 test 123
 
