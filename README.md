@@ -42,5 +42,29 @@ During our meeting with Lyndon, I recall he was interested in my topology develo
 I apologize again for missing our second group meeting, I would have added this to our discussion. Let's discuss tomorrow during class time(?) with Zhiwen, luckily I don't think there is a rigid timeline for us to adhere to for this project, as long as we work on something that is meaningful for us and hopefully contributes to Lyndon's research.
 
 ## Proposed Timeline (Bri) 
-test 123
+3/19
+- Clone original Mapping Africa repository and create accounts on Github to become collaborators
+- Meet once this week to discuss next steps and the overall plan
+- Review Gregg's statistics that he created for us
+- Submit project proposal to Zhiwen
+3/26
+- Meet once this week
+  - Brainstorm 2-3 possible solutions to this "thin-necked" problem
+- Consult the web on similar coding projects in other Python or other programming languages
+- Plan to write a small amount of code related to these proposed solutions
+4/2
+- Meet once this week
+- Continue researching similar projects and underlying concepts
+- Possibly schedule meeting with Lyndon or Gregg, depending on needs
+4/9
+- Meet once this week
+- Start writing code
+4/16
+- Meet once this week
+- Cont. writing code
+4/23
+- Meet once this week
+- Cont. writing code
+4/30 (Final Class?)
+- Present final project to Zhiwen!!!
 
