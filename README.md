@@ -26,10 +26,12 @@ https://github.com/agroimpacts/instancemaker/blob/main/src/instancemaker/compute
 
 ![Example of cropfield polygon statistic ranges](images/RangeREADME.png "Examples of cropfield statistic value ranges")
 
-Using these statistics, we can isolate polygons with "thin necks" and split them along these locations. Below is an example of a similar problem being approached with buffers in R that we can use to guide our project.
-https://gis.stackexchange.com/questions/333817/splitting-polygons-at-narrowest-part-using-r. The `splitnarrow` function described in the answers creates inward buffers from an original polygon until the buffers are forced to split, and finds where the 2 split buffers are closest. It then finds the location on the original polygon that the buffer split corresponds to, and splits the polygon there. The inputs are the original polygon, sdist, which is the smallest value that splits the single polygon into a multipolygon, and eps, which is the smallest value that touches both sides when buffered from the waist intersection point. We could potentially try this approach using buffers but use the shape statistics generated to filter out which polygons to apply the "splitting" method to.
+Below is a plot of the first 100 rows in the zambia_2023_attributed.parquet file, symbolized by the shape_index parameter.
 
 ![Example of cropfield polygon plots](images/PlotExampleREADME.png "Cropfield polygon plots for the first 10 crop fields, symbolized by `shape_index`")
+
+Using these statistics, we can isolate polygons with "thin necks" and split them along these locations. Below is an example of a similar problem being approached with buffers in R that we can use to guide our project.
+https://gis.stackexchange.com/questions/333817/splitting-polygons-at-narrowest-part-using-r. The `splitnarrow` function described in the answers creates inward buffers from an original polygon until the buffers are forced to split, and finds where the 2 split buffers are closest. It then finds the location on the original polygon that the buffer split corresponds to, and splits the polygon there. The inputs are the original polygon, sdist, which is the smallest value that splits the single polygon into a multipolygon, and eps, which is the smallest value that touches both sides when buffered from the waist intersection point. We could potentially try this approach using buffers but use the shape statistics generated to filter out which polygons to apply the "splitting" method to.
 
 Other possible functions we can generate for this project include a sampling function that is weighted by parameters such as cropfield area. After creating a representative sampling of tiles in Zambia, we can then run our algorithm on the sampled tiles. This could save time and computational resources.
 
