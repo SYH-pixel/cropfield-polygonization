@@ -76,3 +76,44 @@ Another possible solution could be to leverage the .interior and .exterior attri
 | 4/23 | - Meet once this week <br> - Review written code with Zhiwen during class | |
 | 4/30 | - Meet once this week <br> - Present final project to Zhiwen | |
 | 5/5  | - Final deliverables due to John and Zhiwen | |
+
+# Results 
+
+## Thin Necks 
+
+See `thinneck.ipynb` and `thinnecks.ipynb` for additional documentation and examples of the `poly_splitter` and `poly_splitter_recursive` functions. 
+
+After implementing a "simple" case `poly_splitter` function in `poly.py` using guidelines described in the proposed methodology section, several challenges remained: 
+
+1) For more complex shapes where there are multiple potential thin necks, how can we write a function that iterates through the dataframe several times to look for additional splits in new split polygons? How does this address the fact that geometries are in 3 columns (the original `geometry` column, the `cut_geom1` column, and the `cut_geom2` column)?
+
+To address this, we created a recursive version of the original `poly_splitter` function that recurses through the original dataframe and looks at the split columns. These split columns are combined into the original dataframe with unsplit polygons and their original geometries are removed. The `poly_splitter` function keeps on running on this updated geodataframe. 
+
+2) What parameters can we use to fine tune the line used to `split` polygons? Investigations of polygons in preliminary split datasets show that some cut lines intersect polygons at a point and cannot split properly. Other lines are too long and cause false small splits, or what we call `slivers`. See images below. 
+
+![alt text](<images\Screenshot 2026-04-29 122623.png>) ![alt text](<images\Screenshot 2026-04-29 113526.png>) ![alt text](images\image-2.png)
+
+To address this, we created a horizontal and vertical unit vector (distance in the x and y directions over total length) for the distance between the two closest points of the multipolygons created at the point the inward buffer splits. See lines 76-80 in `poly.py`. This becomes a unique factor that we can multiply by the distance (which is defined by the bounds of the polygon) to extend the split line while maintaining the perpendicular slope. Although this worked well for the `test_tile` used for this study, the `dist` value likely needs to be verified over a larger dataset. 
+
+In the case that there are unnecessary splits, we added a for loop in the `poly_splitter` function that merges a sliver (a polygon in the scenario that there are more than 2 cut polygons after a split where the polygon is not one of the 2 largest polygons) with one of the 2 largest polygons either based on a shared edge or closest distance if there is no shared edge (lines 101-120). 
+
+In the case that a split "fails", especially where one side of the line intersects the polygon at a point, we snapped the line to the polygon and added a larger tolerance of 1 meter which may need to be adjusted (lines 87-88). 
+
+Verification of the generated polygons through the final versions of the `poly_splitter` and `poly_splitter_recursive` functions show many successful splits, especially at very thin necks, that appear to be supported by satellite imagery. Below is a sample of that output from `test_tile` overlaid over ArcGISPro 2024 World Imagery (from Vantor). 
+
+![alt text](images\image.png)
+
+![alt text](images\imagelarge.png)
+
+# Conclusions
+
+This project was a informative way to learn how to deal with large datasets and the unique challenges of geospatial datasets. As a team, we were able to develop algorithmic ways to address common cropfield polygon issues, although further work needs to be done through the framework established in this project. 
+
+Regarding the thin neck problem in particular, we were able to successfully generate several functions that are capable of iterating through vector datasets and returning split functions with minimal issues. That being said, the method used by this study is not very efficient. It took around 25 minutes to run `poly_splitter_recursive` on `test_tile`, which was a GeoDataframe of 1979 rows and 11 columns. Discussions with Zhiwen alluded to future work that can focus on how to make this less computationally intensive - maybe through binary searches, simplifying geometry, adjusting the parameters such as `max_iter`, `dist`, and `delta`, or adding a minimum buffer length in addition to the maximum so that "thicker" polygon necks are not split. For an example of "thick" polygon necks that may not need to be split, see below: 
+
+![alt text](images\image-1.png)
+
+Another issue that we noticed is that this approach is not very successfully at splitting polygons with what we call "false cut outs", as the distance between many of these cut outs and the polygon exterior are considered thin necks. As we generated a framework for deleting "false cut outs" in this project as well, we recommend running that on a dataset first before running the `poly_splitter_recursive` function.  
+
+![alt text](images\image-3.png)
+
