@@ -41,14 +41,12 @@ To visualize this further, see the first 100 rows of cropfield datasets symboliz
 ## Topology
 A possible first step in this project will be to establish a topology that can assess the dataset based on our defined rules. Mainly we want the topology to focus on the “thin necks” and false cutouts in the dataset, indexing these occurrences by severity of their deviation from our rules. The topology can also include name of rule violation and recommended fix for the incident. This topology could also create a point output with the index table joined for sharing with other RAs on the project. This  could be helpful in dividing portions of the validation process into manageable chunks. The following ESRI link provides a stand-alone python script template for topology creation and editing: [topology](https://pro.arcgis.com/en/pro-app/3.5/help/data/topologies/creating-a-topology.htm#:~:text=If%20you%20have%20data%20in,rules%2C%20and%20validates%20the%20topology).
 
-## Area Weighted Sampling<img width="283" height="223" alt="Screenshot 2026-04-30 at 11 06 25 AM" src="https://github.com/user-attachments/assets/db6ae9ae-cb86-4448-b07a-6b77c05e7f38" />
- and Validation 
+## Area Weighted Sampling
 To speed up computational processing and to make visualizing easier and faster, we can create an area-weighted sampling and validation process. We propose first splitting our entire dataset into tiles using the shapely module and then randomly sampling tiles from our split dataset, weighted by area to prioritize tiles with a large amount of cropland.
 See “Splitting using a regular grid” in this source for sample code for splitting the dataset into tiles ([source](https://snorfalorpagus.net/blog/2016/03/13/splitting-large-polygons-for-faster-intersections/#:~:text=Splitting%20using%20a%20regular%20grid,position%20relative%20to%20the%20grid)). We can do this without the creation of a fishnet by leveraging the tileid assigned to each polygon. 
 
 After splitting into tiles, we could sum the total area_m2 for polygons in each tile and create a column `total_area` that can be used as a weighting factor using `np.random.choice`, as in the example below ([source](https://stackoverflow.com/questions/43549515/weighted-random-sample-without-replacement-in-python)):
 <img width="335" height="67" alt="Screenshot 2026-04-30 at 11 04 21 AM" src="https://github.com/user-attachments/assets/c0ae2d67-fc2b-4dad-a7bd-846cba374b1a" />
-: 
 
 This would make visualizing easier by ensuring all polygons are in the same vicinity (easier to plot and verify) and also allow us to run our functions more quickly. 
 
@@ -67,7 +65,7 @@ One possible solution for the cut out problem is modeled off of gap-filling meth
 Another possible solution could be to leverage the .interior and .exterior attributes created when using `shapely.Polygon` ([shapely.Polygon documentation](https://shapely.readthedocs.io/en/stable/reference/shapely.Polygon.html)). Interiors returns the sequence of interior rings of a polygon after a polygon is created and Exteriors returns the exterior ring of a polygon, so these attributes can be used to identify polygons with rings and then reconstruct them with only the exterior points. Another methodology using the shapely module could be to only remove interior polygons smaller than some threshold ([source](https://gis.stackexchange.com/questions/409340/removing-small-holes-from-the-polygon)): 
 <img width="622" height="271" alt="Screenshot 2026-04-30 at 10 57 01 AM" src="https://github.com/user-attachments/assets/5fefdae4-82dc-4124-9211-368f69f75d46" />
 
-## Proposed Timeline (Bri) 
+## Proposed Timeline 
 | Week | Tasks | Assignee |
 |------|-------|----------|
 | 3/19 | - Clone original Mapping Africa repository and create accounts on Github to become collaborators <br> - Meet once this week to discuss next steps and the overall plan <br> - Review Gregg's statistics that he created for us | Solana = cloning |
