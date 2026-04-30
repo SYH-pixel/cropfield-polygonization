@@ -68,7 +68,7 @@ def poly_splitter(gdf, perimeter_column, geometry_column, delta):
             continue
         else: 
             bounds = gdf.at[idx, geometry_column].bounds
-            dist = max(bounds[2] - bounds[0], bounds[3] - bounds[1])/4
+            dist = max(bounds[2] - bounds[0], bounds[3] - bounds[1])/4 # Arbitrary division to reduce sliver generation
 
             point1 = gdf.at[idx, 'pinch1']
             point2 = gdf.at[idx, 'pinch2']
@@ -79,8 +79,7 @@ def poly_splitter(gdf, perimeter_column, geometry_column, delta):
             perp_dx = -dy / length  # perpendicular unit vector
             perp_dy = dx / length   
 
-            # NOTE: X/Y UNIT VECTOR USED TO INCREASE CUT LINE BY SOME FACTOR THAT WILL CUT THE POLYGON WITHOUT CREATING TOO MANY UNNECESSARY SLIVERS 
-            # E.G. IF A CUT LINE INTERSECTS A POLYGON AT MANY POINTS. This probably needs to be fine tuned more
+            # x/y unit vectors used as a factor to multiply dist by and extent cutting line past polygon exterior 
             midpoint = Point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2)
             perp_line = LineString([(midpoint.x - dist * perp_dx, midpoint.y - perp_dy * dist ), (midpoint.x + dist * perp_dx, midpoint.y + perp_dy * dist)])
 
@@ -109,7 +108,7 @@ def poly_splitter(gdf, perimeter_column, geometry_column, delta):
                     sharededge1 = big1.intersection(sliver).length # shared edge between sliver and "majority" p9ieces
                     sharededge2 = big2.intersection(sliver).length
                     
-                    if sharededge1 == sharededge2: # if same distance from both (usually split at a point), go with closer piece
+                    if sharededge1 == sharededge2: # if sliver has same sharededge length with all larger pieces (usually split at a point), go with closer piece
                         if big1.distance(sliver) <= big2.distance(sliver):  
                             merge_with_1.append(sliver)
                         else:
