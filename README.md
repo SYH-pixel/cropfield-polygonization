@@ -93,11 +93,11 @@ To address this, we created a recursive version of the original `poly_splitter` 
 
 ![alt text](<images/Screenshot 2026-04-29 122623.png>) ![alt text](<images/Screenshot 2026-04-29 113526.png>) ![alt text](images/image-2.png)
 
-To address this, we created a horizontal and vertical unit vector (distance in the x and y directions over total length) for the distance between the two closest points of the multipolygons created at the point the inward buffer splits. See lines 76-80 in `poly.py`. This becomes a unique factor that we can multiply by the distance (which is defined by the bounds of the polygon) to extend the split line while maintaining the perpendicular slope. Although this worked well for the `test_tile` used for this study, the `dist` value likely needs to be verified over a larger dataset. 
+To address this, we created a horizontal and vertical unit vector (distance in the x and y directions over total length) for the distance between the two closest points of the multipolygons created at the point the inward buffer splits. See lines 76-80 in `poly.py`. This becomes a unique factor that we can multiply by `dist` (which is defined by the bounds of the polygon divided by 4) to extend the split line while maintaining the perpendicular slope. Although this worked well for the `test_tile` used for this study, the efficacy of the `dist` parameter likely needs to be verified over a larger dataset. 
 
 In the case that there are unnecessary splits, we added a for loop in the `poly_splitter` function that merges a sliver (a polygon in the scenario that there are more than 2 cut polygons after a split where the polygon is not one of the 2 largest polygons) with one of the 2 largest polygons either based on a shared edge or closest distance if there is no shared edge (lines 101-120). 
 
-In the case that a split "fails", especially where one side of the line intersects the polygon at a point, we snapped the line to the polygon and added a larger tolerance of 1 meter which may need to be adjusted (lines 87-88). 
+In the case that a split "fails", especially where one side of the line intersects the polygon at a point, we snapped the split line to the polygon and added a larger tolerance of 1 meter which may need to be adjusted (lines 87-88). 
 
 Verification of the generated polygons through the final versions of the `poly_splitter` and `poly_splitter_recursive` functions show many successful splits, especially at very thin necks, that appear to be supported by satellite imagery. Below is a sample of that output from `test_tile` overlaid over ArcGISPro 2024 basemap World Imagery. 
 
