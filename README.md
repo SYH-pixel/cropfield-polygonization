@@ -91,7 +91,7 @@ To address this, we created a recursive version of the original `poly_splitter` 
 
 2) What parameters can we use to fine tune the line used to `split` polygons? Investigations of polygons in preliminary split datasets show that some cut lines intersect polygons at a point and cannot split properly. Other lines are too long and cause false small splits, or what we call `slivers`. See images below. 
 
-![alt text](<images\Screenshot 2026-04-29 122623.png>) ![alt text](<images\Screenshot 2026-04-29 113526.png>) ![alt text](images\image-2.png)
+![alt text](<images/Screenshot 2026-04-29 122623.png>) ![alt text](<images/Screenshot 2026-04-29 113526.png>) ![alt text](images/image-2.png)
 
 To address this, we created a horizontal and vertical unit vector (distance in the x and y directions over total length) for the distance between the two closest points of the multipolygons created at the point the inward buffer splits. See lines 76-80 in `poly.py`. This becomes a unique factor that we can multiply by the distance (which is defined by the bounds of the polygon) to extend the split line while maintaining the perpendicular slope. Although this worked well for the `test_tile` used for this study, the `dist` value likely needs to be verified over a larger dataset. 
 
@@ -99,11 +99,11 @@ In the case that there are unnecessary splits, we added a for loop in the `poly_
 
 In the case that a split "fails", especially where one side of the line intersects the polygon at a point, we snapped the line to the polygon and added a larger tolerance of 1 meter which may need to be adjusted (lines 87-88). 
 
-Verification of the generated polygons through the final versions of the `poly_splitter` and `poly_splitter_recursive` functions show many successful splits, especially at very thin necks, that appear to be supported by satellite imagery. Below is a sample of that output from `test_tile` overlaid over ArcGISPro 2024 World Imagery (from Vantor). 
+Verification of the generated polygons through the final versions of the `poly_splitter` and `poly_splitter_recursive` functions show many successful splits, especially at very thin necks, that appear to be supported by satellite imagery. Below is a sample of that output from `test_tile` overlaid over ArcGISPro 2024 basemap World Imagery. 
 
-![alt text](images\image.png)
+![alt text](images/image.png)
 
-![alt text](images\imagelarge.png)
+![alt text](images/imagelarge.png)
 
 # Conclusions
 
@@ -111,9 +111,9 @@ This project was a informative way to learn how to deal with large datasets and 
 
 Regarding the thin neck problem in particular, we were able to successfully generate several functions that are capable of iterating through vector datasets and returning split functions with minimal issues. That being said, the method used by this study is not very efficient. It took around 25 minutes to run `poly_splitter_recursive` on `test_tile`, which was a GeoDataframe of 1979 rows and 11 columns. Discussions with Zhiwen alluded to future work that can focus on how to make this less computationally intensive - maybe through binary searches, simplifying geometry, adjusting the parameters such as `max_iter`, `dist`, and `delta`, or adding a minimum buffer length in addition to the maximum so that "thicker" polygon necks are not split. For an example of "thick" polygon necks that may not need to be split, see below: 
 
-![alt text](images\image-1.png)
+![alt text](images/image-1.png)
 
 Another issue that we noticed is that this approach is not very successfully at splitting polygons with what we call "false cut outs", as the distance between many of these cut outs and the polygon exterior are considered thin necks. As we generated a framework for deleting "false cut outs" in this project as well, we recommend running that on a dataset first before running the `poly_splitter_recursive` function.  
 
-![alt text](images\image-3.png)
+![alt text](images/image-3.png)
 
