@@ -59,8 +59,8 @@ After filtering cropfield polygons, we would then run our thin neck identificati
 
 It then finds the location on the original polygon that the buffer split corresponds to, and splits the polygon there ([source](https://gis.stackexchange.com/questions/333817/splitting-polygons-at-narrowest-part-using-r)). Sample code for this is written in R that would have to be translated to Python.
 
-## Possible Solutions for Cut outs
-One possible solution for the cut out problem is modeled off of gap-filling methods utilized for this ArcGIS project. Drawing from ‘The Neighborhood Similar Pixel (NSPI) Interpolation Method’ section, the goal is to create code that identifies islands or cut-outs within our sample study area. The code then analyzes whether these islands are “true” or “false” by examining its spatial neighbors. If all neighbors, or a certain proportion, are all polygons, then the code converts this “false” island into a polygon and merges it with the already existing neighborhood polygon(s).
+## Possible Solutions for False Cutouts
+One possible solution for the cutout problem is modeled off of gap-filling methods utilized for this ArcGIS project. Drawing from ‘The Neighborhood Similar Pixel (NSPI) Interpolation Method’ section, the goal is to create code that identifies islands or cutouts within our sample study area. The code then analyzes whether these islands are “true” or “false” by examining its spatial neighbors. If all neighbors, or a certain proportion, are all polygons, then the code converts this “false” island into a polygon and merges it with the already existing neighborhood polygon(s).
 
 Another possible solution could be to leverage the .interior and .exterior attributes created when using `shapely.Polygon` ([shapely.Polygon documentation](https://shapely.readthedocs.io/en/stable/reference/shapely.Polygon.html)). Interiors returns the sequence of interior rings of a polygon after a polygon is created and Exteriors returns the exterior ring of a polygon, so these attributes can be used to identify polygons with rings and then reconstruct them with only the exterior points. Another methodology using the shapely module could be to only remove interior polygons smaller than some threshold ([source](https://gis.stackexchange.com/questions/409340/removing-small-holes-from-the-polygon)): 
 <img width="622" height="271" alt="Screenshot 2026-04-30 at 10 57 01 AM" src="https://github.com/user-attachments/assets/5fefdae4-82dc-4124-9211-368f69f75d46" />
@@ -104,6 +104,11 @@ Verification of the generated polygons through the final versions of the `poly_s
 ![alt text](images/image.png)
 
 ![alt text](images/imagelarge.png)
+
+## False Cutouts
+The remove_holes function was successfully applied to two test polygons within the dataset. To begin, the geometry for each polygon was extracted, including the shell (exterior ring) and holes (sequence of interior rings), which were later separated. Each polygon was assessed for having or not having one or more holes based on these coordinates. If the polygon contained one or more holes, then the remove_holes function was applied. To test if the function was successful, the polygon's interior coordinates were checked. If len(cleaned_poly.interiors) > 0 then the function was successful. The cleaned_poly's geometry was also written into a shapefile and visually verified. 
+
+The next steps of this process are to wrap all of this code into a function, iterate over the entire dataset, and increase the efficiency of the algorithm. This is likely possible, but will incur its own set of challenges.
 
 # Conclusions
 
