@@ -105,10 +105,33 @@ Verification of the generated polygons through the final versions of the `poly_s
 
 ![alt text](images/imagelarge.png)
 
-## False Cutouts
-The remove_holes function was successfully applied to two test polygons within the dataset. To begin, the geometry for each polygon was extracted, including the shell (exterior ring) and holes (sequence of interior rings), which were later separated. Each polygon was assessed for having or not having one or more holes based on these coordinates. If the polygon contained one or more holes, then the remove_holes function was applied. To test if the function was successful, the polygon's interior coordinates were checked. If len(cleaned_poly.interiors) > 0 then the function was successful. The cleaned_poly's geometry was also written into a shapefile and visually verified. 
+## False Cutouts ANC
 
-The next steps of this process are to wrap all of this code into a function, iterate over the entire dataset, and increase the efficiency of the algorithm. This is likely possible, but will incur its own set of challenges.
+Utilizing the cited 'remove_holes' function from Proposed Methodology, the false cutouts, deemed holes within the Shapely library, of two test polygons within the dataset were successfully removed. Due to the time constraints of this final project and because the data available was vector, an approach similar to ‘The Neighborhood Similar Pixel (NSPI) Interpolation Method' was not employed at this time, but it is a possible area of future work.
+
+Refer to 'false_cutouts.ipynb' for this section.
+
+To begin, the geometry for each polygon was extracted, including the coordinates of the shell (exterior ring) and holes (sequence of interior rings), which were later separated. Each polygon was assessed on whether it contained one or more holes based on these coordinates. If the polygon contained one or more holes, then the remove_holes function was applied. To test if the function was successful, the polygon's interior coordinates were checked. If len(cleaned_poly.interiors) > 0 then the function was successful. The cleaned_poly's geometry was also written into a shapefile and visually verified. 
+
+The following images are from before and after applying the function:
+
+(images/polygon1_before.png)
+
+(images/polygon1_after.png)
+
+Eleven holes with varying geometries were successfully removed from the first test polygon while maintaining its shell. 
+
+(images/polygon2_before.png)
+
+(images/polygon2_after.png)
+
+Above, the second test polygon's 3 holes are successfully removed and the shell remains intact.
+
+The next steps of this process are 1) to wrap all of this code into one or more functions and 2) iterate over the entire dataset while increasing the efficiency of the algorithm.
+
+To address the first improvement, it would be prudent to create nested functions. One to extract a polygon's geometry. This could be called 'Extract_Poly_Geom'. Another to determine if said polygon has one or more holes, and, if so, separate the shell and holes coordinates from each other and subsequently apply the 'Remove_Holes' function or return 'This polygon has no holes. No further action required." Doing this would make the process more user-friendly and easier to keep organized. 
+
+Secondly, a loop based on the results from the nested functions above that iterates over the entire dataset is necessary to adequately clean the data. With 8 million observations points, however, the efficiency of the algorithm must be improved. One way of doing this is by incorporating parallel processing into these loops. By simultaneously executing multiple tasks within a function, processing speeds could be significantly increased. 
 
 # Conclusions
 
