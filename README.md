@@ -115,15 +115,15 @@ To begin, the geometry for each polygon was extracted, including the coordinates
 
 The following images are from before and after applying the function:
 
-(images/polygon1_before.png)
+![alt text](images/polygon1_before.png)
 
-(images/polygon1_after.png)
+![alt text](images/polygon1_after.png)
 
 Eleven holes with varying geometries were successfully removed from the first test polygon while maintaining its shell. 
 
-(images/polygon2_before.png)
+![alt text](images/polygon2_before.png)
 
-(images/polygon2_after.png)
+![alt text](images/polygon2_after.png)
 
 Above, the second test polygon's 3 holes are successfully removed and the shell remains intact.
 
